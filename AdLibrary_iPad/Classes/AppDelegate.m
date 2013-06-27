@@ -34,11 +34,6 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (void)dealloc {
-  [viewController release];
-  [window release];
-  [super dealloc];
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
   [self.window setRootViewController:viewController];
@@ -70,7 +65,7 @@
 
   [manager setLocation:loc];
   [manager setPostalCode:@"77005"];
-  [loc release], loc = nil;
+  loc = nil;
 
 	return YES;
 }

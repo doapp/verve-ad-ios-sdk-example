@@ -7,9 +7,9 @@
 #define kHideAd @"kHideAd"
 
 @interface AdLibrary_iPadViewController () <VWAdvertViewDelegate>
-@property (nonatomic, assign) VWAdvertView *adView;
-@property (nonatomic, assign) UIView *adContainer;
-@property (nonatomic, assign) VWAdvertView *customAdView;
+@property (nonatomic, weak) VWAdvertView *adView;
+@property (nonatomic, weak) UIView *adContainer;
+@property (nonatomic, weak) VWAdvertView *customAdView;
 @end
 
 
@@ -52,7 +52,7 @@
   [self setAdView:newAdView];
   
   [[self view] addSubview:newAdView];
-  [newAdView release], newAdView = nil;
+  newAdView = nil;
   
   /*
    * Here we're making a custom-sized ad view (300x250, a standard IAB size).
@@ -69,11 +69,11 @@
   
   [newAdContainer addSubview:newAdView];
   [self setCustomAdView:newAdView];
-  [newAdView release], newAdView = nil;
+  newAdView = nil;
   
   [[self view] addSubview:newAdContainer];
   [self setAdContainer:newAdContainer];
-  [newAdContainer release], newAdContainer = nil;
+  newAdContainer = nil;
   
   UIButton *refreshButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
   [refreshButton setFrame:CGRectMake(25.0, 285.0, 300.0, 40.0)];
@@ -99,7 +99,7 @@
 	[refreshButton addTarget:self action:@selector(managedTransition:) forControlEvents:UIControlEventTouchUpInside];
 	[[self view] addSubview:refreshButton];
   
-  [loc release], loc = nil;
+  loc = nil;
 }
 
 - (void)viewDidUnload

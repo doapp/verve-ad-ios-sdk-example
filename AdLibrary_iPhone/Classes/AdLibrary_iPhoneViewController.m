@@ -8,9 +8,9 @@
 
 
 @interface AdLibrary_iPhoneViewController () <VWAdvertViewDelegate>
-@property (nonatomic, assign) VWAdvertView *adView;
-@property (nonatomic, retain) NSTimer *stressTimer;
-@property (nonatomic, assign) UIButton *stressButton;
+@property (nonatomic, weak) VWAdvertView *adView;
+@property (nonatomic, strong) NSTimer *stressTimer;
+@property (nonatomic, weak) UIButton *stressButton;
 @end
 
 
@@ -66,8 +66,8 @@
   [self setAdView:newAdView];
   
   [[self view] addSubview:newAdView];
-  [newAdView release], newAdView = nil;
-  [loc release], loc = nil;
+  newAdView = nil;
+  loc = nil;
 }
 
 - (void)viewDidLoad

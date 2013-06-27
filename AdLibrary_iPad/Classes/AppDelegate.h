@@ -7,8 +7,8 @@
     AdLibrary_iPadViewController *viewController;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet AdLibrary_iPadViewController *viewController;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet AdLibrary_iPadViewController *viewController;
 
 @end
 
