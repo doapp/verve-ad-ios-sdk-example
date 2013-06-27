@@ -1,0 +1,26 @@
+#ifdef __OBJC__
+  #import <Foundation/Foundation.h>
+  #import <UIKit/UIKit.h>
+
+  #ifdef DEBUG
+    #define MCRelease(x) [x release]
+    #define DCLog(...) NSLog(@"%@", [NSString stringWithFormat:__VA_ARGS__])
+    #define DLog(...) NSLog(@"%s(%p) %@", __PRETTY_FUNCTION__, self, [NSString stringWithFormat:__VA_ARGS__])
+    #define ALog(...) {NSLog(@"%s(%p) %@", __PRETTY_FUNCTION__, self, [NSString stringWithFormat:__VA_ARGS__]);[[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithCString:__PRETTY_FUNCTION__ encoding:NSUTF8StringEncoding] file:[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lineNumber:__LINE__ description:__VA_ARGS__];}
+    #define DLogCallStack(...) do { NSString *incomingString = [NSString stringWithFormat:__VA_ARGS__]; NSString *outgoingString = nil; if ([incomingString length] > 0) { outgoingString = [NSString stringWithFormat:@"%@\tCurrent call stack:\n\n%@\n\n", incomingString, [NSThread callStackSymbols]]; } else { outgoingString = [NSString stringWithFormat:@"Current call stack:\n\n%@\n\n", [NSThread callStackSymbols]]; }; DLog(outgoingString); } while(0)
+  #else
+    #ifndef NS_BLOCK_ASSERTIONS
+      #define NS_BLOCK_ASSERTIONS
+    #endif
+    #define MCRelease(x) [x release], x = nil
+    #define DCLog(...) do { } while (0)
+    #define DLog(...) do { } while (0)
+    #define ALog(...) NSLog(@"%s(%p) %@", __PRETTY_FUNCTION__, self, [NSString stringWithFormat:__VA_ARGS__])
+    #define DLogCallStack(...) do { } while (0)
+  #endif
+
+  #define ALogCallStack(...) do { NSString *incomingString = [NSString stringWithFormat:__VA_ARGS__]; NSString *outgoingString = nil; if ([incomingString length] > 0) { outgoingString = [NSString stringWithFormat:@"%@\tCurrent call stack:\n\n%@\n\n", incomingString, [NSThread callStackSymbols]]; } else { outgoingString = [NSString stringWithFormat:@"Current call stack:\n\n%@\n\n", [NSThread callStackSymbols]]; }; ALog(outgoingString); } while(0)
+  #define ZAssert(condition, ...) do { if (!(condition)) { ALog(__VA_ARGS__); }} while(0)
+
+  #define ISRETINADISPLAY (([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) ? [[UIScreen mainScreen] scale] > 1.0 : NO)
+#endif

@@ -1,4 +1,8 @@
-verve-ad-ios-sdk-example
-========================
+# Verve Ad examples for iOS
 
-Verve Ad SDK for iOS Example Project
+## Setup
+
+Once you've cloned the repository, go to repository folder and run these commands:
+
+    git submodule init
+    git submodule update

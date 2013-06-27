@@ -1,0 +1,3 @@
+[submodule "VWAdLibrary"]
+	path = VWAdLibrary
+	url = git@github.com:VerveWireless/verve-ad-ios-sdk.git
