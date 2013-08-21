@@ -29,7 +29,7 @@
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
 	<key>kVWOnlineAdsBaseURL</key>
-	<string>http://dl.dropbox.com/u/5671499/mraid/demo.xml?dummy</string>
+	<string>http://adcel.vrvm.com/banner?b=dailyplanet&amp;p=iphn</string>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
 	<key>CFBundleGetInfoString</key>

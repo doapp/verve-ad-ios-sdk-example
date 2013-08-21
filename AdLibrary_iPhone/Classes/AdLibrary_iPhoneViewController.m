@@ -11,6 +11,7 @@
 @property (nonatomic, weak) VWAdvertView *adView;
 @property (nonatomic, strong) NSTimer *stressTimer;
 @property (nonatomic, weak) UIButton *stressButton;
+@property (nonatomic, assign, readwrite) BOOL shouldCauseModalProblem;
 @end
 
 
@@ -96,6 +97,15 @@
 	[button addTarget:self action:@selector(managedTransition:) forControlEvents:UIControlEventTouchUpInside];
 	[[self view] addSubview:button];
   button = nil;
+
+    button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button setFrame:CGRectMake(25,250,200,40)];
+    [button setTitle:[self shouldCauseModalProblem]?@"Stop Modal Problem":@"Start Modal Problem"
+            forState:UIControlStateNormal];
+    [button addTarget:self
+               action:@selector(toggleModalProblem:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [[self view] addSubview:button];
 
   [self createAdView];
 }
@@ -242,6 +252,21 @@
   [[self adView] adDidAppear];
 }
 
+#pragma mark - Modal Problem
+
+-(void)toggleModalProblem:(id)sender{
+
+    UIButton *b = (UIButton *)sender;
+    if ([self shouldCauseModalProblem]) {
+        [self setShouldCauseModalProblem:NO];
+        [b setTitle:@"Start Modal Problem" forState:UIControlStateNormal];
+    }
+    else{
+        [self setShouldCauseModalProblem:YES];
+        [b setTitle:@"Stop Modal Problem" forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark -
 #pragma mark VWAdViewDelegate Methods
 
@@ -316,6 +341,24 @@
 {
   DLog(@"fired");
   return (YES);
+}
+
+-(BOOL)advertView:(VWAdvertView *)adView shouldPresentAdResponseViewController:(UIViewController *)viewController{
+
+    if ([self shouldCauseModalProblem]) {
+        //the problem happens when the view is deallocated after presenting the modal view controller.
+        //we mimic this by deallocating the view after this method returns
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [[self adView] removeFromSuperview];
+            [self setAdView:nil];
+        }];
+    }
+
+    return YES;
+}
+
+-(BOOL)advertView:(VWAdvertView *)adView shouldDismissAdResponseViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    return YES;
 }
 
 @end
